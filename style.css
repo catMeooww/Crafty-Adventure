@@ -1,0 +1,175 @@
+@font-face {
+    font-family: Minecraft;
+    src: url(Minecraft.ttf);
+}
+
+body {
+    font-family: Minecraft;
+    background-color: aliceblue;
+    background-image: url(Wood\ Background.jpg);
+}
+
+#editorBody{
+    margin-top: 10%;
+}
+
+.topBarOptions{
+    width: 17%;
+    border: black 2px outset;
+    margin: 5px;
+    text-align: center;
+}
+
+.topBarOptions:hover{
+    border-color: cornflowerblue;
+}
+
+.topBarOptions div{
+    margin-top: 5%;
+}
+
+#logo{
+    border-width: 3px;
+}
+
+#logo div{
+    float: right;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 98.5%;
+    color: aliceblue;
+    padding: 10px;
+    background-image: url(StoneBar.png);
+    border-bottom: 3px ridge black;
+}
+
+#mapSaver {
+    background-color: rgb(194, 194, 194);
+    border: outset grey 2px;
+}
+
+canvas {
+    background-color: cyan;
+    border: 3px green ridge;
+}
+
+form {
+    background-color: blueviolet;
+    border: 2px black outset;
+}
+
+button {
+    border: green 2px outset;
+    background-color: lime;
+    padding: 1px;
+    margin: 1px;
+    font-family: Minecraft;
+}
+
+#editor_tools {
+    float: inline-end;
+}
+
+#front_mapconfig {
+    width: 50%;
+    left: 2px;
+    top: 5px;
+}
+
+#special_mapconfig {
+    position: absolute;
+    width: 45%;
+    right: 2px;
+    top: 5px;
+}
+
+#special_mapconfig button {
+    background-color: rgba(0, 0, 0, 0.500);
+    color: aqua;
+    width: 50%;
+    padding: 1px;
+}
+
+#blockselector, #ambientselector, #blockProperties, .ui {
+    visibility: hidden;
+    position: fixed;
+    z-index: 100;
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    height: 90%;
+    overflow-y: scroll;
+    border: 5px ridge rgba(0, 0, 0, 0.400);
+    background-image: url(StoneBar.png);
+    color:white;
+}
+
+.inventorySelector{
+    width: 70px;
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0);
+    border: solid 0px black;
+    background-image: url(ambient_assets/slot\ minecraft.png);
+    background-size: cover;
+    justify-content: center;
+    cursor: pointer;
+}
+.bgSelector{
+    width: 220px;
+    height: 120px;
+    background-color: rgba(0, 0, 0, 0);
+    border: ridge 5px gray;
+    justify-content: center;
+    cursor: pointer;
+}
+.inventorySelector img{
+    width: 40px;
+    height: 40px;
+}
+.bgSelector img{
+    width: 200px;
+    height: 100px;
+}
+
+.greenTxt{
+    color: chartreuse;
+}
+.yellowTxt{
+    color: orange;
+}
+.purpleTxt{
+    color: blueviolet;
+}
+.redTxt{
+    color: red;
+}
+
+#actualblock,#actualambient,#editingBlockName{
+    color:aquamarine;
+    text-shadow: 2px 2px 2px blue;
+}
+
+input{
+    border: green outset 2px;
+    background-color: aliceblue;
+}
+
+.moveNumberBtn{
+    float: inline-end;
+    width: 100px;
+    border: purple outset 2px;
+    background-color: black;
+    text-align: center;
+}
+.moveNumberBtn button{
+    width: 40px;
+    height: 40px;
+}
+.moveNumberBar{
+    text-align: left;
+    height: 50px;
+}

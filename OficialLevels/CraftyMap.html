@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crafty Adventure: Play</title>
+    <script src="../p5.dom.min.js"></script>
+    <script src="../p5.min.js"></script>
+    <script src="../p5.play.js"></script>
+    <script src="../p5.sound.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="shortcut icon" href="../sprites/ExplorerPlayer.png" type="image/png">
+    <script src="mapLevel.js"></script>
+    <script src="loadMap.js"></script>
+</head>
+
+<body onload="initializeMap()">
+    <!--UIs-->
+    <div class="header" style="display: inline-flex;">
+        <div id="logo" class="topBarOptions"><img src="../sprites/ExplorerPlayer.png" width="20">
+            <div style="visibility: hidden;">----</div>
+            <div>Crafty Adventure</div>
+        </div>
+        <div class="topBarOptions">
+            <div id="mapId">Map: </div>
+        </div>
+        <div class="topBarOptions" style="float: right;" onclick="pauseUi()">
+            <div id="mapId">Pause Game</div>
+        </div>
+    </div>
+    <center>
+        <div class="ui" id="PauseMenu">
+            <h1>Crafty Adventure</h1>
+            <h3>Pause Menu</h3>
+            <hr>
+            <br><br>
+            <button onclick="closeUIs()" style="width: 80%;">Continue</button>
+            <br><br>
+            <button onclick="restart()" style="width: 80%;">Restart Map</button>
+            <br><br>
+            <button onclick="leaveLevel()" style="width: 80%;">Return to Main UI</button>
+            <br><br>
+            <hr>
+            <br><br>
+            <p id="mapId_menu"></p>
+            <h6>Crafty Adventure - CatMeooww10</h6>
+        </div>
+        <div class="ui" id="WinMenu">
+            <hr>
+            <h1>Level Completed</h1>
+            <h3>You Passed all the map!</h3>
+            <hr>
+            <br><br>
+            <button onclick="restart()" style="width: 80%;">Restart Map</button>
+            <br><br>
+            <button onclick="leaveLevel()" style="width: 80%;">Return to Main UI</button>
+            <br><br>
+            <button onclick="closeUIs()" style="width: 80%;">Spectate Level</button>
+        </div>
+        <div class="ui" id="DeathMenu">
+            <h1>Game Over</h1>
+            <h3>Looks like you died, huh?</h3>
+            <hr>
+            <br><br>
+            <button onclick="restart()" style="width: 80%;">Respawn</button>
+            <br><br>
+            <button onclick="leaveLevel()" style="width: 80%;">Return to Main UI</button>
+        </div>
+        <!--Canvas-->
+        <div style="margin-top: 6.3%;" id="GameCanvas"></div>
+    </center>
+
+</body>
+
+</html>

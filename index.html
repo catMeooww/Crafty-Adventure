@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crafty Adventure</title>
+    <link rel="stylesheet" href="start.css">
+    <link rel="shortcut icon" href="sprites/ExplorerPlayer.png" type="image/png">
+</head>
+
+<body>
+    <div class="ui" id="oficialLevelSeletors">
+        <center>
+            <button onclick="closeMainLevelSelector()">X</button>
+            <h1>Crafty Adventure Maps</h1>
+            <h3>The Oficial Levels Journey</h3>
+            <hr>
+            <div id="MappingLevelSelectors">
+                <div class="MappingLevelSelector" onclick="openLevel('oficial','Level 1')">
+                    <p>Level 1 - The House</p>
+                    <img src="oficialLevelCovers/l1.png">
+                </div>
+                <div class="MappingLevelSelector" onclick="openLevel('oficial','Level 2')">
+                    <p>Level 2 - The Forest</p>
+                    <img src="oficialLevelCovers/l2.png">
+                </div>
+            </div>
+        </center>
+    </div>
+    <div id="mainUi">
+        <button id="toCatMeoowwEnder" onclick="redirectPage(4)"><img src="sprites/EnderTeleporter.png"></button>
+        <div id="mainUiOptions">
+            <button onclick="redirectPage(1)">PLAY</button>
+            <button>Community Maps</button>
+            <button onclick="redirectPage(3)">Map Creator</button>
+            <br><br><br><br>
+        </div>
+    </div>
+    <br><br>
+    <div id="mainInfo" style="color: aliceblue;">
+        <p>Crafty Adventure</p>
+        <p>________________________</p>
+        <p>Developed by CatMeooww10</p>
+        <p>Based on Minecraft by Mojang Studios</p>
+        <p style="float: right;">Crafty Adventure - V.beta1 - 2024</p>
+    </div>
+    <script>
+        function redirectPage(to) {
+            if (to == 1) {
+                document.getElementById("oficialLevelSeletors").style.visibility = "visible";
+            } else if (to == 2) {
+
+            } else if (to == 3) {
+                window.location = "MapEditor/mapdev.html";
+            } else if (to == 4) {
+                window.location = "https://catmeooww.github.io/CatMeooww/catmeoowwProjects.html";
+            }
+        }
+
+        function closeMainLevelSelector() {
+            document.getElementById("oficialLevelSeletors").style.visibility = "hidden";
+        }
+
+        function openLevel(type, id) {
+            localStorage.setItem("MapType", type);
+            localStorage.setItem("CraftyMapId", id);
+            window.location = "OficialLevels/CraftyMap.html";
+        }
+    </script>
+</body>
+
+</html>

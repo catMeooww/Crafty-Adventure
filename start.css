@@ -1,0 +1,97 @@
+@font-face {
+    font-family: Minecraft;
+    src: url(Minecraft.ttf);
+}
+
+body{
+    font-family: Minecraft;
+    color: white;
+    background-image: url(StoneBar.png);
+}
+
+#mainUi{
+    background-image: url("CraftyAdventureBg.png");
+    background-size: cover;
+    margin: -1%;
+    width: 101.5%;
+    box-shadow: 1px 5px 5px cadetblue;
+}
+
+#mainUiOptions{
+    padding-top: 300px;
+    text-align: center;
+}
+
+#mainUiOptions button{
+    color: aliceblue;
+    width: 80%;
+    background-color: rgba(61, 61, 61, 0.9);
+    border: 5px ridge gray;
+    padding: 10px;
+    margin: 5px;
+    font-size: large;
+    font-family: Minecraft;
+}
+
+#mainUiOptions button:hover{
+    font-weight: bolder;
+    border: 7px ridge gainsboro;
+    margin: 3px;
+    cursor: pointer;
+}
+
+#toCatMeoowwEnder{
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+}
+#toCatMeoowwEnder img{
+    width: 50px;
+}
+
+#toCatMeoowwEnder img:hover{
+    width: 50px;
+    background-color: rgba(240, 248, 255, 0.2);
+}
+
+.MappingLevelSelector{
+    background-color: rgba(0, 0, 0, 0.700);
+    border: outset 5px black;
+    padding: 5px;
+    width: 30%;
+    box-shadow: 2px 2px 2px darkcyan;
+    margin: 10%;
+    cursor: pointer;
+}
+
+.MappingLevelSelector img{
+    border: ridge 2px black;
+    margin: 2px;
+    width: 90%;
+}
+
+.ui {
+    visibility: hidden;
+    position: fixed;
+    z-index: 100;
+    top: 5%;
+    left: 10%;
+    width: 80%;
+    height: 90%;
+    border: 5px ridge rgba(0, 0, 0, 0.400);
+    background-image: url(StoneBar.png);
+    color:white;
+}
+
+.ui button{
+    background-color: rgba(0, 0, 0, 0.700);
+    border: outset 1px cyan;
+    color: cyan;
+    float: left;
+    width: 30px;
+    height: 30px;
+}
+
+#MappingLevelSelectors{
+    overflow-y: scroll;
+    height: 400px;
+}

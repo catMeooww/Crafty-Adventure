@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crafty Adventure: Map Dev</title>
+    <script src="MapFiles.js"></script>
+    <script src="../p5.dom.min.js"></script>
+    <script src="../p5.min.js"></script>
+    <script src="../p5.play.js"></script>
+    <script src="../p5.sound.min.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="shortcut icon" href="../sprites/ExplorerPlayer.png" type="image/png">
+    <script src="sketch.js"></script>
+</head>
+
+<body id="editorBody">
+    <!--Selectors-->
+    <div id="blockProperties">
+        <center>
+            <br><br>
+            <button onclick="closeBlockProperties()" style="width: 80%;">Close</button>
+            <br><br>
+            <label>Editing Block: </label>
+            <label id="editingBlockName"></label>
+            <hr>
+            <label>Block ID: </label><label id="editingBlockID"></label>
+            <hr>
+            <label>Block Position</label>
+            <div style="width: 40%;margin: 50px;">
+                <div class="moveNumberBar">
+                    <label>X: </label><label id="editingBlockPosX"></label>
+                    <div class="moveNumberBtn">
+                        <button onclick="moveEditingBlock('less-x')">◂</button>
+                        <button onclick="moveEditingBlock('more-x')">▸</button>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="moveNumberBar">
+                    <label>Y: </label><label id="editingBlockPosY"></label>
+                    <div class="moveNumberBtn">
+                        <button onclick="moveEditingBlock('less-y')">◂</button>
+                        <button onclick="moveEditingBlock('more-y')">▸</button>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="moveNumberBar">
+                    <label>Rotate: </label><label id="editingBlockPosR"></label>
+                    <div class="moveNumberBtn">
+                        <button onclick="moveEditingBlock('less-r')">⟲</button>
+                        <button onclick="moveEditingBlock('more-r')">⟳</button>
+                    </div>
+                    <br><br>
+                </div>
+                <div class="moveNumberBar">
+                    <label>Breakbility: </label><label id="editingBlockBreakbility"></label>
+                    <div class="moveNumberBtn">
+                        <button onclick="breakbilityEditingBlock(-1)">◂</button>
+                        <button onclick="breakbilityEditingBlock(1)">▸</button>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+            <div id="extraProperties"></div>
+        </center>
+    </div>
+    <div id="ambientselector">
+        <center>
+            <br><br>
+            <button onclick="closeChooseAmbient()" style="width: 80%;">Close</button>
+            <p>Void:</p>
+            <label id="showVoidHeight">1200</label>
+            <input id="voidHeightEditor" placeholder="change void">
+            <button onclick="newVoid()">Save</button>
+            <hr>
+            <h3>Selected Ambient:</h3>
+            <p id="actualambient">plains</b></p>
+            <hr>
+            <button onclick="selectAmbient(1)" class="bgSelector">
+                <img src="../ambient_assets/empty_bg.png">
+            </button>
+            <button onclick="selectAmbient(2)" class="bgSelector">
+                <img src="../ambient_assets/plains_bg.png">
+            </button>
+            <button onclick="selectAmbient(3)" class="bgSelector">
+                <img src="../ambient_assets/islandy_bg.png">
+            </button>
+        </center>
+    </div>
+    <div id="blockselector">
+        <center>
+            <br><br>
+            <button onclick="closeChooseBlock()" style="width: 80%;">Close</button>
+            <h3>Selected Block:</h3>
+            <p id="actualblock">grass |<b class="greenTxt"> solid</b></p>
+            <hr>
+            <h3>Tools</h3>
+            <button onclick="selectBlockTool(1)" class="inventorySelector">
+                <img src="../sprites/pickaxe.jpg">
+            </button>
+            <button onclick="selectBlockTool(2)" class="inventorySelector">
+                <img src="../sprites/axe.png">
+            </button>
+            <hr>
+            <h3>Normal Blocks</h3>
+            <button onclick="selectBlock(1)" class="inventorySelector">
+                <img src="../sprites/Grass.jpg">
+            </button>
+            <button onclick="selectBlock(5)" class="inventorySelector">
+                <img src="../sprites/Dirt.jpg">
+            </button>
+            <button onclick="selectBlock(2)" class="inventorySelector">
+                <img src="../sprites/Planks.jpg">
+            </button>
+            <button onclick="selectBlock(3)" class="inventorySelector">
+                <img src="../sprites/Wood.jpg">
+            </button>
+            <button onclick="selectBlock(4)" class="inventorySelector">
+                <img src="../sprites/Leaves.jpg">
+            </button>
+            <hr>
+            <h3>Background Blocks</h3>
+            <button onclick="selectBgBlock(1)" class="inventorySelector">
+                <img src="../sprites/Grass.jpg">
+            </button>
+            <button onclick="selectBgBlock(5)" class="inventorySelector">
+                <img src="../sprites/Dirt.jpg">
+            </button>
+            <button onclick="selectBgBlock(2)" class="inventorySelector">
+                <img src="../sprites/Planks.jpg">
+            </button>
+            <button onclick="selectBgBlock(3)" class="inventorySelector">
+                <img src="../sprites/Wood.jpg">
+            </button>
+            <button onclick="selectBgBlock(4)" class="inventorySelector">
+                <img src="../sprites/Leaves.jpg">
+            </button>
+            <hr>
+            <h3>Functionalities</h3>
+            <button onclick="selectFunctionalBlock(1)" class="inventorySelector">
+                <img src="../sprites/EnderFinish.png">
+            </button>
+            <button onclick="selectFunctionalBlock(2)" class="inventorySelector">
+                <img src="../sprites/EnderTeleporter.png">
+            </button>
+            <button onclick="selectFunctionalBlock(3)" class="inventorySelector">
+                <img src="../sprites/spawner.png">
+            </button>
+            <hr>
+        </center>
+    </div>
+    <!--Map Editor Html-->
+    <div id="mapconfig" class="header">
+        <div id="front_mapconfig">
+            <h2 id="title">Crafty Adventure: Map Editor</h2>
+            <b>Your map name: </b><input id="mapname"> <button onclick="saveName()">Save Name</button>
+            <br><br>
+            <div id="uploadmap">
+                <form enctype="multipart/form-data">
+                    <b>Create a new map or upload it here:</b>
+                    <input id="upload" type="file" accept=".craftymap" name="files" size=30>
+                </form>
+            </div>
+        </div>
+        <div id="special_mapconfig">
+            <p>Map Configurations</p>
+            <button onclick="openChooseAmbient()">Map Ambient</button>
+            <button onclick="download()">Save Map</button>
+        </div>
+    </div><br>
+    <hr>
+    <div id="tools">
+        <button id="runButton" onclick="runTest()">Run Game</button>
+        <div id="editor_tools">
+            <img id="selectedBlock">
+            <button class="chooseButton" onclick="openChooseBlock()">Select Block</button>
+        </div>
+    </div>
+    <div id="canvashandler" style="text-align: center;"></div>
+
+    <hr>
+    <div id="mapSaver">
+        <button onclick="enableShowMapConsole()" style="border-bottom-color: blue;" id="showConsoleBtn">Show
+            Console</button>
+        <button onclick="enableShowMapJson()" id="showJsonBtn">Show Map Data</button>
+        <button onclick="startDepuration()" style="float: right;" id="showDebugBtn">Start Debug</button>
+        <hr>
+        <p id="upload_file"></p>
+    </div>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', handle_file_select, false);
+    </script>
+
+</body>
+
+</html>
