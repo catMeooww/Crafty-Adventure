@@ -64,11 +64,23 @@
             <div id="extraProperties"></div>
         </center>
     </div>
+    <div id="editorSettings">
+        <center>
+            <br><br>
+            <button onclick="closeEditorSettings()" style="width: 80%;">Close</button>
+            <h3>Placing Blocks Mode:</h3>
+            <button onclick="setPlaceMode(1)">Place by Grid</button>
+            <button onclick="setPlaceMode(0)">Place Free Position</button>
+            <h3>Show Advanced Data</h3>
+            <button onclick="setVisibleData(true)">Show</button>
+            <button onclick="setVisibleData(false)">Hide</button>
+        </center>
+    </div>
     <div id="ambientselector">
         <center>
             <br><br>
             <button onclick="closeChooseAmbient()" style="width: 80%;">Close</button>
-            <p>Void:</p>
+            <h3>Void:</h3>
             <label id="showVoidHeight">1200</label>
             <input id="voidHeightEditor" placeholder="change void">
             <button onclick="newVoid()">Save</button>
@@ -109,6 +121,9 @@
             <button onclick="selectBlock(5)" class="inventorySelector">
                 <img src="../sprites/Dirt.jpg">
             </button>
+            <button onclick="selectBlock(6)" class="inventorySelector">
+                <img src="../sprites/stone.png">
+            </button>
             <button onclick="selectBlock(2)" class="inventorySelector">
                 <img src="../sprites/Planks.jpg">
             </button>
@@ -126,6 +141,9 @@
             <button onclick="selectBgBlock(5)" class="inventorySelector">
                 <img src="../sprites/Dirt.jpg">
             </button>
+            <button onclick="selectBgBlock(6)" class="inventorySelector">
+                <img src="../sprites/stone.png">
+            </button>
             <button onclick="selectBgBlock(2)" class="inventorySelector">
                 <img src="../sprites/Planks.jpg">
             </button>
@@ -142,6 +160,9 @@
             </button>
             <button onclick="selectFunctionalBlock(2)" class="inventorySelector">
                 <img src="../sprites/EnderTeleporter.png">
+            </button>
+            <button onclick="selectFunctionalBlock(4)" class="inventorySelector">
+                <img src="../sprites/SlimeBlock.png">
             </button>
             <button onclick="selectFunctionalBlock(3)" class="inventorySelector">
                 <img src="../sprites/spawner.png">
@@ -164,6 +185,7 @@
         </div>
         <div id="special_mapconfig">
             <p>Map Configurations</p>
+            <button onclick="openEditorSettings()">Editor Config</button>
             <button onclick="openChooseAmbient()">Map Ambient</button>
             <button onclick="download()">Save Map</button>
         </div>

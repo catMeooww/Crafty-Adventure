@@ -94,7 +94,7 @@ button {
     padding: 1px;
 }
 
-#blockselector, #ambientselector, #blockProperties, .ui {
+#blockselector, #ambientselector, #blockProperties, #editorSettings, .ui {
     visibility: hidden;
     position: fixed;
     z-index: 100;

@@ -53,6 +53,8 @@ function initializeMap() {
             loadMapFile("./Level 1.craftymap");
         }else if (selectedMapId == "Level 2") {
             loadMapFile("./Level 2.craftymap");
+        }else if (selectedMapId == "Level 3") {
+            loadMapFile("./Level 3.craftymap");
         }else{
             window.location = "../";
         }

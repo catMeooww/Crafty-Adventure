@@ -9,7 +9,7 @@ var latestRunData = [];
 var sprites = [];
 
 function preload() {
-  //player and editor
+  //player and map
   playerImage = loadImage("../sprites/ExplorerPlayer.png");
   pickaxeImg = loadImage("../sprites/pickaxe.jpg");
   eAxeImg = loadImage("../sprites/axe.png");
@@ -23,9 +23,11 @@ function preload() {
   leavesImg = loadImage("../sprites/Leaves.jpg");
   grassImg = loadImage("../sprites/Grass.jpg");
   dirtImg = loadImage("../sprites/Dirt.jpg");
+  stoneImg = loadImage("../sprites/stone.png");
   enderEye = loadImage("../sprites/EnderFinish.png");
   enderPearl = loadImage("../sprites/EnderTeleporter.png");
   spawner = loadImage("../sprites/spawner.png");
+  slimeImg = loadImage("../sprites/SlimeBlock.png");
 }
 
 function setup() {
@@ -123,6 +125,12 @@ function testFunctional(index) {
     playerSprite.x = EnderTpX;
     playerSprite.y = EnderTpY;
     latestRunData.push("Teleported to: " + EnderTpX + " | " + EnderTpY);
+  } else if (mapdata.components[index].type == "slime") {
+    jumper = mapdata.components[index].extra.force;
+    if (jumper == undefined){
+      jumper = 12
+    }
+    playerSprite.velocityY = -jumper;
   }
 }
 
@@ -149,12 +157,16 @@ function placeBlock(thisblock, placedPosX, placedPosY, thisBlockRotation, thisBl
     createdSprite.addImage("default", leavesImg);
   } else if (thisblock == "dirt") {
     createdSprite.addImage("default", dirtImg);
+  } else if (thisblock == "stone") {
+    createdSprite.addImage("default", stoneImg);
   } else if (thisblock == "finish") {
     createdSprite.addImage("default", enderEye);
   } else if (thisblock == "ender") {
     createdSprite.addImage("default", enderPearl);
   } else if (thisblock == "spawner") {
     createdSprite.addImage("default", spawner);
+  } else if (thisblock == "slime") {
+    createdSprite.addImage("default", slimeImg);
   }
   createdSprite.scale = 0.8;
   createdSprite.rotation = thisBlockRotation;

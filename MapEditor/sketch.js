@@ -3,6 +3,8 @@ isRunning = false;
 isSelectorOpen = false;
 isDebbuging = false;
 
+placeMode = "grid";
+
 var selectedBlock = "grass";
 var selectedBlockSolid = true;
 var selectedBlockRotation = 0;
@@ -38,9 +40,11 @@ function preload() {
   leavesImg = loadImage("../sprites/Leaves.jpg");
   grassImg = loadImage("../sprites/Grass.jpg");
   dirtImg = loadImage("../sprites/Dirt.jpg");
+  stoneImg = loadImage("../sprites/stone.png");
   enderEye = loadImage("../sprites/EnderFinish.png");
   enderPearl = loadImage("../sprites/EnderTeleporter.png");
   spawner = loadImage("../sprites/spawner.png");
+  slimeImg = loadImage("../sprites/SlimeBlock.png");
 }
 
 function setup() {
@@ -130,8 +134,22 @@ function draw() {
 
   if (!isRunning) {
     mousePlacer.visible = true;
-    mousePlacer.position.x = Math.floor(playerSprite.position.x + mouseX - 630);
-    mousePlacer.position.y = Math.floor(playerSprite.position.y - 60 + mouseY - 250);
+
+    if (placeMode == "grid"){
+      if (mousePlacer.position.x > playerSprite.position.x + mouseX - 630){
+        mousePlacer.position.x -= 80;
+      }else if (mousePlacer.position.x + 80 < playerSprite.position.x + mouseX - 630){
+        mousePlacer.position.x += 80;
+      }
+      if (mousePlacer.position.y > playerSprite.position.y - 60 + mouseY - 250){
+        mousePlacer.position.y -= 80;
+      }else if (mousePlacer.position.y + 80 < playerSprite.position.y - 60 + mouseY - 250){
+        mousePlacer.position.y += 80;
+      }
+    }else{
+      mousePlacer.position.x = Math.floor(playerSprite.position.x + mouseX - 630);
+      mousePlacer.position.y = Math.floor(playerSprite.position.y - 60 + mouseY - 250);
+    }
 
     if (selectedBlock == "delete") {
       mousePlacer.changeImage("deletor");
@@ -172,6 +190,12 @@ function testFunctional(index) {
     playerSprite.x = EnderTpX;
     playerSprite.y = EnderTpY;
     latestRunData.push("Teleported to: " + EnderTpX + " | " + EnderTpY);
+  } else if (mapdata.components[index].type == "slime") {
+    jumper = mapdata.components[index].extra.force;
+    if (jumper == undefined){
+      jumper = 12
+    }
+    playerSprite.velocityY = -jumper;
   }
 }
 
@@ -223,12 +247,16 @@ function placeBlock(thisblock, placedPosX, placedPosY, thisBlockRotation, thisBl
     createdSprite.addImage("default", leavesImg);
   } else if (thisblock == "dirt") {
     createdSprite.addImage("default", dirtImg);
+  } else if (thisblock == "stone") {
+    createdSprite.addImage("default", stoneImg);
   } else if (thisblock == "finish") {
     createdSprite.addImage("default", enderEye);
   } else if (thisblock == "ender") {
     createdSprite.addImage("default", enderPearl);
   } else if (thisblock == "spawner") {
     createdSprite.addImage("default", spawner);
+  } else if (thisblock == "slime") {
+    createdSprite.addImage("default", slimeImg);
   }
   createdSprite.scale = 0.8;
   createdSprite.rotation = thisBlockRotation;
@@ -294,6 +322,8 @@ function selectBlock(b) {
     selectedBlock = "leaves";
   } else if (b == 5) {
     selectedBlock = "dirt";
+  } else if (b == 6) {
+    selectedBlock = "stone";
   }
   document.getElementById("actualblock").innerHTML = selectedBlock + "  |<b class='greenTxt'>  solid</b>";
 }
@@ -310,6 +340,8 @@ function selectBgBlock(b) {
     selectedBlock = "leaves";
   } else if (b == 5) {
     selectedBlock = "dirt";
+  } else if (b == 6) {
+    selectedBlock = "stone";
   }
   document.getElementById("actualblock").innerHTML = selectedBlock + "  |<b class='yellowTxt'>  background</b>";
 }
@@ -322,6 +354,8 @@ function selectFunctionalBlock(b) {
     selectedBlock = "ender";
   } else if (b == 3) {
     selectedBlock = "spawner";
+  } else if (b == 4) {
+    selectedBlock = "slime";
   }
   document.getElementById("actualblock").innerHTML = selectedBlock + "  |<b class='purpleTxt'>  functional</b>";
 }
@@ -369,6 +403,17 @@ function closeChooseAmbient() {
   }, 500)
 }
 
+function openEditorSettings(){
+  document.getElementById("editorSettings").style.visibility = "visible";
+  isSelectorOpen = true;
+}
+function closeEditorSettings() {
+  document.getElementById("editorSettings").style.visibility = "hidden";
+  setTimeout(() => {
+    isSelectorOpen = false;
+  }, 500)
+}
+
 //block properties
 function openBlockProperties() {
   document.getElementById('blockProperties').style.visibility = "visible";
@@ -388,7 +433,9 @@ function openBlockProperties() {
 
   if (editingThisBlockType == 'ender') {
     document.getElementById("extraProperties").innerHTML = "<h3>Ender Pearl Config</h3><br><br><label>X:</label><input id='specialPropertiesInput1' type='number'><br><br><label>Y:</label><input id='specialPropertiesInput2' type='number''><br><br><button id='specialPropertiesBtn' onclick='setEnderTp()'>Set Tp</button>";
-  }else{
+  } else if(editingThisBlockType == 'slime'){
+    document.getElementById("extraProperties").innerHTML = "<h3>Slime Jumping</h3><br><br><label>Force:</label><input id='specialPropertiesInput1' type='number'><br><br><button id='specialPropertiesBtn' onclick='setSlimeForce()'>Set Slime</button>";
+  } else{
     document.getElementById("extraProperties").innerHTML = "";
   }
 }
@@ -477,6 +524,24 @@ function startDepuration() {
   }
 }
 
+function setPlaceMode(m){
+  mousePlacer.position.x = 0;
+  mousePlacer.position.y = 0;
+  if (m == 0){
+    placeMode = "free";
+  }else{
+    placeMode = "grid";
+  }
+}
+
+function setVisibleData(v){
+  if (v == true){
+    document.getElementById("mapSaver").style.visibility = "visible";
+  }else{
+    document.getElementById("mapSaver").style.visibility = "hidden";
+  }
+}
+
 function newVoid() {
   newVoidHeight = document.getElementById('voidHeightEditor').value;
   if (newVoidHeight > 1000) {
@@ -490,4 +555,7 @@ function newVoid() {
 function setEnderTp(){
   mapdata.components[editingBlockIndex].extra.tpX = Number(document.getElementById("specialPropertiesInput1").value);
   mapdata.components[editingBlockIndex].extra.tpY = Number(document.getElementById("specialPropertiesInput2").value);
+}
+function setSlimeForce(){
+  mapdata.components[editingBlockIndex].extra.force = Number(document.getElementById("specialPropertiesInput1").value);
 }
