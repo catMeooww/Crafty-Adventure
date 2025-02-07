@@ -8,7 +8,10 @@ function loadMapFile(fl_file) {
     xmlhttp.send();
 
     uploadedmapdata = JSON.parse(xmlhttp.responseText);
-    //map config
+    genMap(uploadedmapdata)
+}
+
+function genMap(uploadedmapdata){
     mapdata.mapname = uploadedmapdata.mapname;
     mapdata.ambient = uploadedmapdata.ambient;
     if (uploadedmapdata.void != undefined) {
@@ -55,11 +58,29 @@ function initializeMap() {
             loadMapFile("./Level 2.craftymap");
         }else if (selectedMapId == "Level 3") {
             loadMapFile("./Level 3.craftymap");
+        }else if (selectedMapId == "Level 4") {
+            loadMapFile("./Level 4.craftymap");
         }else{
             window.location = "../";
         }
         isRunning = true
+    }else if(gettingFrom == "online"){
+        isLoading = false
+        firebase.database().ref("/maps/" + selectedMapId + "/data").on("value", data => {
+            if (!isLoading){
+                uploadedmapdata = data.val();
+                genMap(uploadedmapdata);
+                isRunning = true;
+            }
+        });
     }else{
         window.location = "../";
     }
+    loadUserData();
+}
+
+function userLogged(){
+    console.log("logged: " + logged);
+    document.getElementById("userId").innerHTML = user;
+    document.getElementById("userId").style.color = "lime";
 }

@@ -31,7 +31,7 @@ function preload() {
 }
 
 function setup() {
-  canvas = createCanvas(windowWidth - 100, windowHeight - 100);
+  canvas = createCanvas(windowWidth - 6, windowHeight - 33);
   canvas.parent("GameCanvas");
 
   playerSprite = createSprite(0, 0);
@@ -45,14 +45,14 @@ function draw() {
   frameRate(100);
   background("cyan");
   document.getElementById("mapId").innerHTML = "Map: " + mapdata.mapname;
-  document.getElementById("mapId_menu").innerHTML = "Map Id: " + mapdata.mapname + ".craftymap";
+  document.getElementById("mapId_menu").innerHTML = "Map Id: " + selectedMapId;
 
   if (mapdata.ambient == "air") {
-    image(bg_air, camera.x - 650, camera.y - 260, 1300, 520);
+    image(bg_air, camera.x - 700, camera.y - 290, 1400, 577);
   } else if (mapdata.ambient == "plains") {
-    image(bg_plains, camera.x - 650, camera.y - 260, 1300, 520);
+    image(bg_plains, camera.x - 700, camera.y - 290, 1400, 577);
   } else if (mapdata.ambient == "islandy") {
-    image(bg_islands, camera.x - 650, camera.y - 260, 1300, 520);
+    image(bg_islands, camera.x - 700, camera.y - 290, 1400, 577);
   }
 
   if (isRunning) {
@@ -223,4 +223,14 @@ function closeUIs(){
   document.getElementById("WinMenu").style.visibility = "hidden";
   document.getElementById("DeathMenu").style.visibility = "hidden";
   document.getElementById("PauseMenu").style.visibility = "hidden";
+}
+
+function openHeader(){
+  document.getElementById("headerbox").style.height = "100px";
+  document.getElementById("headerbtns").style.visibility = "visible";
+}
+
+function closeHeader(){
+  document.getElementById("headerbox").style.height = "5px";
+  document.getElementById("headerbtns").style.visibility = "hidden";
 }

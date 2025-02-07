@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Crafty Adventure: Play</title>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+    <script src="../serverdat.js"></script>
+
     <script src="../p5.dom.min.js"></script>
     <script src="../p5.min.js"></script>
     <script src="../p5.play.js"></script>
@@ -16,16 +21,21 @@
 
 <body onload="initializeMap()">
     <!--UIs-->
-    <div class="header" style="display: inline-flex;">
-        <div id="logo" class="topBarOptions"><img src="../sprites/ExplorerPlayer.png" width="20">
-            <div style="visibility: hidden;">----</div>
-            <div>Crafty Adventure</div>
-        </div>
-        <div class="topBarOptions">
-            <div id="mapId">Map: </div>
-        </div>
-        <div class="topBarOptions" style="float: right;" onclick="pauseUi()">
-            <div id="mapId">Pause Game</div>
+    <div class="header" id="headerbox" onmouseenter="openHeader()" onmouseleave="closeHeader()">
+        <div id="headerbtns" style="display: inline-flex;">
+            <div id="logo" class="topBarOptions"><img src="../sprites/ExplorerPlayer.png" width="25">
+                <div style="visibility: hidden;">----</div>
+                <div style="color: cyan;font-size: 20px;">Crafty Adventure</div>
+            </div>
+            <div class="topBarOptions">
+                <div id="mapId">Map: </div>
+            </div>
+            <div class="topBarOptions" style="float: right;" onclick="pauseUi()">
+                <div id="pause">Pause Game</div>
+            </div>
+            <div class="topBarOptions" style="float: right;">
+                <div id="userId">Not Logged</div>
+            </div>
         </div>
     </div>
     <center>
@@ -67,7 +77,7 @@
             <button onclick="leaveLevel()" style="width: 80%;">Return to Main UI</button>
         </div>
         <!--Canvas-->
-        <div style="margin-top: 6.3%;" id="GameCanvas"></div>
+        <div style="width: 100%;height: 100%;position: fixed;top: 27px;left: 0px;" id="GameCanvas"></div>
     </center>
 
 </body>

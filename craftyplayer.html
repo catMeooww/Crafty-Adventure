@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crafty Adventure - Player Login</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+    <script src="serverdat.js"></script>
+
+    <link rel="shortcut icon" href="sprites/ExplorerPlayer.png" type="image/png">
+
+    <style>
+        @font-face {
+            font-family: Minecraft;
+            src: url(Minecraft.ttf);
+        }
+
+        body {
+            background: url('ambient_assets/empty_bg.png');
+            background-size:cover;
+            background-position:center;
+            color: aliceblue;
+            margin-top: 10%;
+            font-family: Minecraft;
+        }
+
+        .header {
+            text-align: center;
+            background: url('StoneBar.png');
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 10%;
+        }
+
+        .header button {
+            background: rgba(0, 0, 0, 0.700);
+            border: 5px black outset;
+            color: aliceblue;
+            padding: 5px;
+            margin: 3px;
+            font-family: Minecraft;
+        }
+
+        .header button:hover {
+            background: rgba(0, 0, 0, 0.900);
+            color: aqua;
+            cursor: pointer;
+        }
+
+        #loginDiv{
+            background: rgba(0, 0, 0, 0.700);
+            border: 5px black outset;
+            width: 50%;
+            height: 300px;
+        }
+
+        input{
+            background-color: gray;
+            color: aliceblue;
+            border: inset 4px black;
+        }
+
+        #loginDiv button{
+            border: outset green 5px;
+            color: blue;
+            font-family: Minecraft;
+            padding: 2px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <button style="font-weight: bolder;color: aqua;">Crafty Adventure</button>
+        <button onclick="redirectPage(1)">Main UI</button>
+        <button onclick="redirectPage(2)">Community</button>
+        <button onclick="redirectPage(5)">CatMeooww</button>
+    </div>
+    <center>
+        <div id="loginDiv" style="display: flexbox;">
+            <img src="sprites/ExplorerPlayer.png" style="width: 50px;height: 70px;float: left;">
+            <h1 style="width: 90%;margin-top: 15px;">Crafty Adventure Login</h1>
+            <hr>
+            <div id="login-panel">
+                <label style="margin-right: 25px;">Player:</label><input type="text" id="login-username"><br><br>
+                <label>Password: </label><input type="password" id="login-userpassword">
+                <hr>
+                <button onclick="LogAccount()" style='background-color: chartreuse;'>Crafty Login</button>
+                <button onclick="createAccount()" style='background-color: cornflowerblue;'>Create</button>
+            </div>
+            <b id="login-error"></b>
+        </div>
+    </center>
+    <script>
+        if (Math.random() > 0.5){
+            document.body.style.background = "url('ambient_assets/plains_bg.png')";
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
+        }else{
+            document.body.style.background = "url('ambient_assets/islandy_bg.png')";
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundPosition = "center";
+        }
+
+        function redirectPage(to) {
+            if (to == 1) {
+                window.location = "./";
+            } else if (to == 2) {
+                window.location = "openmaps.html";
+            }else if (to == 5) {
+                window.location = "https://catmeooww.github.io/CatMeooww-GamingArea/";
+            }
+        }
+
+        function userLogged(){
+            document.getElementById("login-panel").innerHTML = "<h1>Player: "+user+"</h1><button onclick=logout() style='background-color: red;'>Log-Out</button>"
+        }
+
+        loadUserData();
+        
+        //login
+        function LogAccount() {
+            userinput = document.getElementById("login-username").value;
+            passwordinput = document.getElementById("login-userpassword").value;
+            if (userinput != "" && passwordinput != "") {
+                var userref = firebase.database().ref("/users/" + userinput + "/status");
+                var passref = firebase.database().ref("/users/" + userinput + "/password");
+                var isUserCreated;
+                var isJoining = false;
+                userref.on("value", data => {
+                    isUserCreated = data.val();
+                    if (!isJoining) {
+                        isJoining = true;
+                        if (isUserCreated == "online" || isUserCreated == "mod") {
+                            passref.on("value", data => {
+                                canPass = data.val();
+                                if (canPass == passwordinput) {
+                                    localStorage.setItem("user", userinput);
+                                    localStorage.setItem("password", passwordinput);
+                                    location.reload();
+                                } else {
+                                    document.getElementById("login-error").innerHTML = "Incorrect Password";
+                                    document.getElementById("login-userpassword").style.borderColor = "red";
+                                }
+                            })
+                        } else if(isUserCreated == "disabled"){
+                            document.getElementById("login-error").innerHTML = "This account got disabled";
+                            document.getElementById("login-username").style.borderColor = "red";
+                        } else {
+                            document.getElementById("login-error").innerHTML = "Incorrect Username";
+                            document.getElementById("login-username").style.borderColor = "red";
+                        }
+                    }
+                });
+            } else {
+                document.getElementById("login-error").innerHTML = "All the inputs need a value";
+                document.getElementById("login-username").style.borderColor = "yellow";
+                document.getElementById("login-userpassword").style.borderColor = "yellow";
+            }
+        }
+
+        function createAccount() {
+            userinput = document.getElementById("login-username").value;
+            passwordinput = document.getElementById("login-userpassword").value;
+            if (userinput != "" && passwordinput != "") {
+                var userref = firebase.database().ref("/users/" + userinput + "/status");
+                var isUserCreated;
+                var isJoining = false;
+                userref.on("value", data => {
+                    isUserCreated = data.val();
+                    if (!isJoining) {
+                        isJoining = true;
+                        if (isUserCreated == null) {
+                            firebase.database().ref("/users/").child(userinput).update({
+                                password: passwordinput,
+                                status: "online"
+                            });
+                            document.getElementById("login-error").innerHTML = "Account Sucessfuly Created";
+                        } else {
+                            document.getElementById("login-error").innerHTML = "This username already exists";
+                            document.getElementById("login-username").style.borderColor = "red";
+                        }
+                    }
+                });
+            } else {
+                document.getElementById("login-error").innerHTML = "All the inputs need a value";
+                document.getElementById("login-username").style.borderColor = "yellow";
+                document.getElementById("login-userpassword").style.borderColor = "yellow";
+            }
+        }
+
+        function logout(){
+            localStorage.removeItem("user");
+            localStorage.removeItem("password");
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

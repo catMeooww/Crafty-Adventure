@@ -40,17 +40,35 @@ body{
     cursor: pointer;
 }
 
-#toCatMeoowwEnder{
-    background-color: rgba(0, 0, 0, 0);
-    border-color: rgba(0, 0, 0, 0);
+#MenuEnder{
+    position: fixed;
+    background: url("StoneBar.png");
+    width: 54px;
+    height: 54px;
+    border: 2px black solid;
 }
-#toCatMeoowwEnder img{
+#MenuEnder img{
     width: 50px;
+    margin: 2px;
 }
 
-#toCatMeoowwEnder img:hover{
-    width: 50px;
-    background-color: rgba(240, 248, 255, 0.2);
+#MenuEnderCollapse{
+    visibility: hidden;
+}
+
+#MenuEnderCollapse button{
+    margin: 3%;
+    padding: 2%;
+    background-color: black;
+    border: 2px black outset;
+    color: aliceblue;
+    width: 90%;
+    font-family: Minecraft;
+}
+
+#MenuEnderCollapse button:hover{
+    color: rgb(0, 252, 168);
+    cursor: pointer;
 }
 
 .MappingLevelSelector{

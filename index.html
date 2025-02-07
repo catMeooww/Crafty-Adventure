@@ -4,11 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Crafty Adventure</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+    <script src="serverdat.js"></script>
+
     <link rel="stylesheet" href="start.css">
     <link rel="shortcut icon" href="sprites/ExplorerPlayer.png" type="image/png">
 </head>
 
 <body>
+    <div class="ui" id="errorMobile" style="top: 0px;left: 0px;width: 100%;height: 100%;">
+        <center>
+            <h1>Crafty Adventure</h1>
+            <h3>Looks like you trying to access through mobile that is not supported.</h3>
+            <img src="ambient_assets/plains_bg.png" style="width: 90%;height: 350px;border: outset black 5px;">
+            <p>Sorry for that</p>
+        </center>
+    </div>
     <div class="ui" id="oficialLevelSeletors">
         <center>
             <button onclick="closeMainLevelSelector()">X</button>
@@ -28,14 +42,26 @@
                     <p>Level 3 - Slimy Place</p>
                     <img src="oficialLevelCovers/l3.png">
                 </div>
+                <div class="MappingLevelSelector" onclick="openLevel('oficial','Level 4')">
+                    <p>Level 4 - Enter the Caves</p>
+                    <img src="oficialLevelCovers/l4.png">
+                </div>
             </div>
         </center>
     </div>
     <div id="mainUi">
-        <button id="toCatMeoowwEnder" onclick="redirectPage(4)"><img src="sprites/EnderTeleporter.png"></button>
+        <div id="MenuEnder" onmouseenter="openEnder()" onmouseleave="closeEnder()">
+            <img src="sprites/EnderTeleporter.png">
+            <div id="MenuEnderCollapse">
+                <button style="color: blue;border-style: groove;">Ender Menu</button>
+                <button id="LoginEnder" onclick="redirectPage(4)">Login</button>
+                <button id="CatMeoowwEnder" onclick="redirectPage(5)">More</button>
+            </div>
+        </div>
         <div id="mainUiOptions">
+            <br><br><br>
             <button onclick="redirectPage(1)">PLAY</button>
-            <button>Community Maps</button>
+            <button onclick="redirectPage(2)">Community Maps</button>
             <button onclick="redirectPage(3)">Map Creator</button>
             <br><br><br><br>
         </div>
@@ -46,17 +72,24 @@
         <p>________________________</p>
         <p>Developed by CatMeooww10</p>
         <p>Based on Minecraft by Mojang Studios</p>
-        <p style="float: right;">Crafty Adventure - V.beta2 - 2024</p>
+        <p style="float: right;">Crafty Adventure - V.beta3 - 2025</p>
     </div>
     <script>
+        var testMobile = /iPhone|Android|iPad/i.test(navigator.userAgent);
+        if (testMobile){
+            document.getElementById("errorMobile").style.visibility = "visible";
+        }
+
         function redirectPage(to) {
             if (to == 1) {
                 document.getElementById("oficialLevelSeletors").style.visibility = "visible";
             } else if (to == 2) {
-
+                window.location = "openmaps.html";
             } else if (to == 3) {
                 window.location = "MapEditor/mapdev.html";
             } else if (to == 4) {
+                window.location = "craftyplayer.html";
+            } else if (to == 5) {
                 window.location = "https://catmeooww.github.io/CatMeooww-GamingArea/";
             }
         }
@@ -70,6 +103,26 @@
             localStorage.setItem("CraftyMapId", id);
             window.location = "OficialLevels/CraftyMap.html";
         }
+
+        function openEnder(){
+            document.getElementById("MenuEnder").style.width = "250px";
+            document.getElementById("MenuEnder").style.height = "350px";
+            document.getElementById("MenuEnderCollapse").style.visibility = "visible";
+            document.getElementById("MenuEnder").style.borderColor = "white";
+        }
+        function closeEnder(){
+            document.getElementById("MenuEnder").style.width = "54px";
+            document.getElementById("MenuEnder").style.height = "54px";
+            document.getElementById("MenuEnderCollapse").style.visibility = "hidden";
+            document.getElementById("MenuEnder").style.borderColor = "black";
+        }
+
+        function userLogged(){
+            console.log("logged: " + logged);
+            document.getElementById("LoginEnder").innerHTML = user;
+        }
+
+        loadUserData()
     </script>
 </body>
 

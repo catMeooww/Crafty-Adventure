@@ -559,3 +559,25 @@ function setEnderTp(){
 function setSlimeForce(){
   mapdata.components[editingBlockIndex].extra.force = Number(document.getElementById("specialPropertiesInput1").value);
 }
+
+function openPublisher(){
+  if (logged && mapdata.mapname != ""){
+    document.getElementById("publishNAME").innerHTML = mapdata.mapname;
+    if (mapdata.ambient == "air") {
+      document.getElementById("publishIMG").src = "../ambient_assets/empty_bg.png";
+    } else if (mapdata.ambient == "plains") {
+      document.getElementById("publishIMG").src = "../ambient_assets/plains_bg.png";
+    } else if (mapdata.ambient == "islandy") {
+      document.getElementById("publishIMG").src = "../ambient_assets/islandy_bg.png";
+    }
+    document.getElementById("MapPublishing").style.visibility = "visible";
+  }
+}
+
+function closePublisher(){
+  document.getElementById("MapPublishing").style.visibility = "hidden";
+}
+
+function menu(){
+  window.location = "../openmaps.html";
+}

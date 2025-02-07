@@ -14,7 +14,8 @@ body {
 }
 
 .topBarOptions{
-    width: 17%;
+    width: 300px;
+    height: 60px;
     border: black 2px outset;
     margin: 5px;
     text-align: center;
@@ -45,6 +46,7 @@ body {
     padding: 10px;
     background-image: url(StoneBar.png);
     border-bottom: 3px ridge black;
+    z-index: 5;
 }
 
 #mapSaver {
@@ -172,4 +174,16 @@ input{
 .moveNumberBar{
     text-align: left;
     height: 50px;
+}
+.mappublishdata{
+    background-color: black;
+    border: black 5px outset;
+    padding: 3px;
+    margin: 5px;
+}
+.mappublishdata img{
+    border: black 5px inset;
+}
+.mappublishdata img:hover{
+    border: green 5px ridge;
 }

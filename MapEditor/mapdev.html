@@ -4,18 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Crafty Adventure: Map Dev</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+    <script src="../serverdat.js"></script>
     <script src="MapFiles.js"></script>
+
     <script src="../p5.dom.min.js"></script>
     <script src="../p5.min.js"></script>
     <script src="../p5.play.js"></script>
     <script src="../p5.sound.min.js"></script>
+
     <link rel="stylesheet" href="../style.css">
     <link rel="shortcut icon" href="../sprites/ExplorerPlayer.png" type="image/png">
     <script src="sketch.js"></script>
 </head>
 
-<body id="editorBody">
+<body id="editorBody" onload="loadUserData()">
     <!--Selectors-->
+    <div id="MapPublishing" class="ui">
+        <center>
+            <button onclick="closePublisher()" style="width: 80%;">Close</button>
+            <br><br>
+            <div class="mappublishdata" style="width: 95%;height: 70%;">
+                <img id="publishIMG" style="width: 75%; height: 350px;" src="../ambient_assets/empty_bg.png">
+                <h3 id="publishNAME" style="color: aliceblue;">MapName</h3>
+                <p id="publishUSER">UserName</p>
+            </div>
+            <button onclick="publish()" style="width: 80%;">Send Map</button>
+        </center>
+    </div>
     <div id="blockProperties">
         <center>
             <br><br>
@@ -188,6 +207,7 @@
             <button onclick="openEditorSettings()">Editor Config</button>
             <button onclick="openChooseAmbient()">Map Ambient</button>
             <button onclick="download()">Save Map</button>
+            <button id="mapPublisherBTN" onclick="openPublisher()" style="color: red;">Not Logged</button>
         </div>
     </div><br>
     <hr>

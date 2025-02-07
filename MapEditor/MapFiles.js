@@ -62,7 +62,12 @@ function handle_file_select(evt) {
     reader.readAsText(fl_file);
 }
 
-
+function userLogged(){
+    console.log("logged: " + logged);
+    document.getElementById("mapPublisherBTN").innerHTML = "Publish Map";
+    document.getElementById("mapPublisherBTN").style.color = "lime";
+    document.getElementById("publishUSER").innerHTML = user;
+}
 
 function download() {
     if (!mapdata.mapname == "") {
@@ -80,4 +85,13 @@ function download() {
 
         document.body.removeChild(element);
     }
+}
+
+function publish(){
+    firebase.database().ref("/maps/").push({
+            by:user,
+            data:mapdata
+    });
+    document.getElementById("MapPublishing").innerHTML = "<h1>Map Published!<h1><center><button onclick='menu()' style='width: 80%;'>Main Page</button></center><p>Downloading local copy...</p>";
+    download();
 }

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Crafty Adventure - Community</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-database.js"></script>
+
+    <script src="serverdat.js"></script>
+
+    <link rel="stylesheet" href="start.css">
+    <link rel="shortcut icon" href="sprites/ExplorerPlayer.png" type="image/png">
+
+    <style>
+        .customMap {
+            text-align: left;
+            background-color: black;
+            border: 5px outset black;
+            margin: 10px;
+            width: 85%;
+        }
+
+        .customMap:hover {
+            background-color: darkslategray;
+            border: 5px outset cadetblue;
+            cursor: pointer;
+        }
+
+        .customMap div {
+            display: inline-flex;
+        }
+
+        .customMap label {
+            align-self: center;
+            margin: 5px;
+            font-size: 30px;
+        }
+
+        .customMap label:hover {
+            font-weight: bolder;
+            color: aliceblue;
+            text-shadow: 2px 2px 2px green;
+        }
+
+        .customMap p {
+            color: blueviolet;
+            margin: 5px;
+        }
+
+        .customMap img {
+            border: 5px inset black;
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainUi">
+        <div id="MenuEnder" onmouseenter="openEnder()" onmouseleave="closeEnder()">
+            <img src="sprites/EnderTeleporter.png">
+            <div id="MenuEnderCollapse">
+                <button style="color: blue;border-style: groove;">Ender Menu</button>
+                <button id="LoginEnder" onclick="redirectPage(4)">Login</button>
+                <button id="CatMeoowwEnder" onclick="redirectPage(5)">More</button>
+            </div>
+        </div>
+        <div id="mainUiOptions">
+            <br><br><br>
+            <button onclick="redirectPage(2)">Maps by Community</button>
+            <button onclick="redirectPage(1)">Return</button>
+            <p>Theese are published by online players, not oficial maps</p>
+            <br><br>
+        </div>
+    </div>
+    <center>
+        <div id="output" style="margin-top: 30px;">
+
+        </div>
+    </center>
+    <script>
+        function redirectPage(to) {
+            if (to == 1) {
+                window.location = "./";
+            } else if (to == 2) {
+                window.location = "openmaps.html";
+            } else if (to == 4) {
+                window.location = "craftyplayer.html";
+            } else if (to == 5) {
+                window.location = "https://catmeooww.github.io/CatMeooww-GamingArea/";
+            }
+        }
+
+        function closeMainLevelSelector() {
+            document.getElementById("oficialLevelSeletors").style.visibility = "hidden";
+        }
+
+        function openLevel(type, id) {
+            localStorage.setItem("MapType", type);
+            localStorage.setItem("CraftyMapId", id);
+            window.location = "OficialLevels/CraftyMap.html";
+        }
+
+        function openEnder() {
+            document.getElementById("MenuEnder").style.width = "250px";
+            document.getElementById("MenuEnder").style.height = "350px";
+            document.getElementById("MenuEnderCollapse").style.visibility = "visible";
+            document.getElementById("MenuEnder").style.borderColor = "white";
+        }
+        function closeEnder() {
+            document.getElementById("MenuEnder").style.width = "54px";
+            document.getElementById("MenuEnder").style.height = "54px";
+            document.getElementById("MenuEnderCollapse").style.visibility = "hidden";
+            document.getElementById("MenuEnder").style.borderColor = "black";
+        }
+
+        function userLogged() {
+            console.log("logged: " + logged);
+            document.getElementById("LoginEnder").innerHTML = user;
+        }
+
+        loadUserData()
+
+        function prepare(id){
+            console.warn("Preparing Level Id: "+id)
+            document.getElementById(id).style.borderTopColor = "lime";
+            setTimeout(()=>{
+                openLevel('online',id)
+            },500)
+        }
+
+        firebase.database().ref("/maps/").on('value', function (snapshot) {
+            document.getElementById("output").innerHTML = "";
+            snapshot.forEach(function (childSnapshot) {
+                childKey = childSnapshot.key; childData = childSnapshot.val();
+
+                firebaseMessageId = childKey;
+                projectData = childData;
+
+                mapName = projectData['data']['mapname'];
+                mapAmbience = projectData['data']['ambient'];
+                whoSent = projectData['by'];
+
+                if (mapAmbience == "air") {
+                    image = "<img width=80 src='ambient_assets/empty_bg.png'>";
+                } else if (mapAmbience == "plains") {
+                    image = "<img width=80 src='ambient_assets/plains_bg.png'>";
+                } else if (mapAmbience == "islandy") {
+                    image = "<img width=80 src='ambient_assets/islandy_bg.png'>";
+                }
+
+                r = Math.floor(Math.random() * 155)+155;
+                g = Math.floor(Math.random() * 155)+155;
+                b = Math.floor(Math.random() * 155)+155;
+
+                dataDiv = "<div>" + image + "<label style='color: rgb("+r+","+g+","+b+")'>" + mapName + "</label></div>";
+                mapDiv = "<div onclick='prepare(this.id)' class='customMap' id='" + firebaseMessageId + "'>" + dataDiv + "<p>" + whoSent + "</p></div>";
+
+                document.getElementById("output").innerHTML += mapDiv
+            });
+        });
+    </script>
+</body>
+
+</html>
